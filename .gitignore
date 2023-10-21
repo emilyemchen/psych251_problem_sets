@@ -3,3 +3,6 @@
 # Quarto outputs
 *_files/
 *.html
+
+#R history
+.Rhistory
