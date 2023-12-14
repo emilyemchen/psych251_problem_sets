@@ -1,7 +1,7 @@
 ---
 title: "Aid with Dignity"
 author: "Psych 251"
-date: "11/13/2020"
+date: "11/17/2020"
 output: html_document
 ---
 
@@ -54,8 +54,16 @@ k1_df$sel.score.z <- scale(k1_df$sel.score)
 Always good to make histograms of the dependent variables (`sel.score` and `vid.num`)! Use facets, fills, etc. to try and explore how these relate to treatment. 
 
 ```{r}
-ggplot(k1_df, aes(x = ...)) + 
-  geom_histogram() 
+#POV = Poverty Alleviation
+#IND: Individual Empowerment
+#COM: Community Empowerment
+ggplot(k1_df, aes(x = sel.score)) + 
+  geom_histogram() + 
+  facet_wrap(~treat)
+
+ggplot(k1_df, aes(x = vid.num)) + 
+  geom_histogram(bins=3) + 
+  facet_wrap(~treat)
 
 # try some faceting, e.g. facet_wrap(~treat)
 ```
@@ -68,10 +76,12 @@ Reproduce the behavioral result that `vid.num` is influenced by `treat`! (Figure
 Build out this simple stub code. 
 
 ```{r}
+library(Hmisc)
 k1_df %>%
   group_by(treat) %>%
-  summarise(...) %>%
-  ggplot(...) 
+  ggplot(aes(y = vid.num, x = treat, fill = treat)) + 
+    stat_summary(geom = "bar") +
+    stat_summary(fun.data="mean_cl_boot", geom = "linerange")
 ```
 
 If you get this one, build out Figure 1b (left side) for `sel.score.avg`. 
@@ -85,4 +95,3 @@ Consider exploratory analysis of demographic variables and how they relate to ou
 * `ses.unemployed` = employment
 * `soc.sav` = savings > 1000ksh
 * `soc.inc` = income
-
